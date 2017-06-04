@@ -1,14 +1,14 @@
 {
-  "name": "git-release",
+  "name": "get-git-release",
   "version": "1.0.0",
   "description": "A helper module for downloading GitHub releases.",
-  "main": "git-release.js",
+  "main": "get-git-release.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cckelly21/git-release.git"
+    "url": "git+https://github.com/cckelly21/get-git-release.git"
   },
   "keywords": [
     "node",
@@ -18,7 +18,10 @@
   "author": "Charles Kelly",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cckelly21/git-release/issues"
+    "url": "https://github.com/cckelly21/get-git-release/issues"
   },
-  "homepage": "https://github.com/cckelly21/git-release#readme"
+  "homepage": "https://github.com/cckelly21/get-git-release#readme",
+  "dependencies": {
+    "request": "^2.81.0"
+  }
 }
