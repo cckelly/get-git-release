@@ -68,26 +68,41 @@ function sendDownloadRequest(options, params, callback) {
 
     if(!error && response.statusCode == 200) {
       const json = JSON.parse(body);
-      const urls = [];
+      const files = [];
 
-      if(params.zipball) 
-        urls.push(json.zipball_url);
-      if(params.tarball) 
-        urls.push(json.tarball_url);
+      if(params.zipball) {
+        files.push({
+          url: json.zipball_url,
+          fileName: params.zipball.fileName || (json.tag_name + ".zip")
+        });
+      }
+
+      if(params.tarball) {
+        files.push({
+          url: json.tarball_url,
+          fileName: params.tarball.fileName || (json.tag_name + ".tar.gz")
+        });
+      }
+
+      if(params.binaries) {
+        json.assets.forEach(function(asset) {
+          files.push({
+            url: asset.browser_download_url,
+            fileName: asset.name
+          });
+        })
+      }
 
       if(!fs.existsSync(params.saveDirectory))
         fs.mkdirSync(params.saveDirectory);
 
-      urls.forEach(function(value) {
-        options.url = value;
-        let savePath = '';
-        if(value == json.zipball_url)
-          savePath = params.saveDirectory + params.zipball.fileName;
-        else if(value == json.tarball_url)
-          savePath = params.saveDirectory + params.tarball.fileName;
+      files.forEach(function(file) {
+        options.url = file.url;
+        let savePath = params.saveDirectory + file.fileName;
+  
         const stream = request(options).pipe(fs.createWriteStream(savePath));
         stream.on('finish', function() {
-          callback(null, value);
+          callback(null, file.url);
         });
         stream.on('error', function(e) {
           callback(e, null);

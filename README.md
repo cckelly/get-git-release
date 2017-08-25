@@ -56,7 +56,20 @@ rel.downloadReleaseByTag(params, function(error, response) {
 });
 ```
 
-You can download just the tarball or both the zipball and tarball by adding a `tarball` property to the `params` object. Other download methods:
+You can download just the tarball or both the zipball and tarball by adding a `tarball` property to the `params` object. If you don't set a `fileName` property, file will be saved with the original name. 
+
+Also you can download other release files (binaries) by adding a `binaries` property.
+
+```javascript
+const params = {
+  user: 'facebook',
+  repo: 'react',
+  saveDirectory: 'Downloads/ReactReleases/',
+  binaries: true
+}
+```
+
+Other download methods:
 
 ```javascript
 rel.downloadLatestRelease(params, callback);
@@ -70,5 +83,4 @@ rel.downloadSingleRelease(params, callback);
 
 * Download private repositories
 * Download all releases
-* Maintain remote filename
 * Unzip option
